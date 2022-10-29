@@ -57,8 +57,8 @@ INSERT INTO filme VALUES
 (1001, 'Whiplash', 2015),
 (1002, 'Birdman', 2015),
 (1003, 'Interstelar', 2014),
-(1004, 'A culpa é das estrelas', 2014),
-(1005, 'Alexandre e o dia terrível, horrível, espantoso e horroroso', 2016),
+(1004, 'A culpa Ã© das estrelas', 2014),
+(1005, 'Alexandre e o dia terrÃ­vel, horrÃ­vel, espantoso e horroroso', 2016),
 (1006, 'Sing', 2016)
 
 INSERT INTO estrela VALUES
@@ -87,11 +87,11 @@ INSERT INTO dvd VALUES
 (10009, '2020-04-03', 1003)
 
 INSERT INTO cliente VALUES
-(5501, 'Matilde Luz', 'Rua Síria', 150, '03086040'),
+(5501, 'Matilde Luz', 'Rua SÃ­ria', 150, '03086040'),
 (5502, 'Carlos Carreiro', 'Rua Bartolomeu Aires', 1250, '04419110'),
 (5503, 'Daniel Ramalho', 'Rua Itajutiba', 169, NULL),
 (5504, 'Roberta Bento', 'Rua Jayme Von Rosenburg', 36, NULL),
-(5505, 'Rosa Cerqueira', 'Rua Arnaldo Simões Pinto', 235, '02917110')
+(5505, 'Rosa Cerqueira', 'Rua Arnaldo SimÃµes Pinto', 235, '02917110')
 
 INSERT INTO locacao VALUES
 (10001, 5502, GETDATE(), '2022-10-23', 3.50)
@@ -172,4 +172,32 @@ SELECT num_cadastro, nome, logradouro + ' ' + CAST(num AS VARCHAR(5)) + ' ' + ce
 WHERE num_cadastro >= 5503
 
 
+--Tarefa 25/10
+
+SELECT DISTINCT id, ano, SUBSTRING(titulo, 1, 10)+'...' AS titulo FROM filme
+WHERE id IN(
+SELECT filmeId FROM dvd
+WHERE data_fabricacao > '2020-01-01'
+)
+
+SELECT DISTINCT num, data_fabricacao, DATEDIFF(MONTH, data_fabricacao, GETDATE()) AS qtd_meses_desde_fabricacao
+FROM dvd
+WHERE filmeID IN(
+SELECT id FROM filme
+WHERE titulo = 'Interstelar'
+)
+
+SELECT DISTINCT dvdNum, data_locacao, data_devolucao, DATEDIFF(DAY, data_locacao, data_devolucao) AS dias_alugados,
+valor FROM locacao
+WHERE clienteNum_cadastro IN(
+SELECT num_cadastro FROM cliente
+WHERE nome LIKE '%Rosa%'
+)
+
+SELECT DISTINCT nome, logradouro +' '+ CAST(numero AS VARCHAR(05)) AS end_completo, SUBSTRING(cep, 1, 5) +'-'+ SUBSTRING(cep, 5, 3) AS cep
+FROM cliente
+WHERE num_cadastro IN(
+SELECT clienteNum_cadastro FROM locacao
+WHERE dvdNum = 10002
+)
 
