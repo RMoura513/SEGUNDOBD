@@ -41,7 +41,7 @@ INSERT INTO users (nome, username, senha, email) VALUES
 ('Paulo', 'Ti_paulo', '123@456', 'paulo@empresa.com')
 
 INSERT INTO users (nome, username, email) VALUES
-('Ana', 'Rh_ana', 'ana_empresa'),
+('Ana', 'Rh_ana', 'ana@empresa.com'),
 ('Clara', 'Ti_clara', 'clara@empresa.com')
 
 INSERT INTO users (nome, username, senha, email) VALUES
@@ -51,8 +51,8 @@ ALTER TABLE projects
 ALTER COLUMN descricao		VARCHAR(45)			NULL
 
 INSERT INTO projects (nome, descricao, data_projeto) VALUES
-('Re-folha', 'RefatoraÁ„o das folhas', '2014-09-04'),
-('ManutenÁ„o PCs', 'ManutenÁ„o PCs', '2014-09-06'),
+('Re-folha', 'Refatora√ß√£o das folhas', '2014-09-04'),
+('Manuten√ß√£o PCs', 'Manuten√ß√£o PCs', '2014-09-06'),
 ('Auditoria', NULL, '2014-09-07')
 
 INSERT INTO users_has_projects VALUES
@@ -64,7 +64,7 @@ INSERT INTO users_has_projects VALUES
 
 UPDATE projects
 SET data_projeto = '2014-09-12'
-WHERE nome = 'ManutenÁ„o PCs'
+WHERE nome = 'Manuten√ß√£o PCs'
 
 UPDATE users
 SET username = 'Rh_cido'
@@ -76,3 +76,41 @@ WHERE username = 'Rh_maria'
 
 DELETE users_has_projects
 WHERE usersId = 2
+
+
+--Tarefa 25/10
+
+
+SELECT id, nome, email, username,
+		CASE WHEN senha = '123mudar'
+		THEN
+		senha
+		ELSE
+		'********'
+		END AS senha
+FROM users
+
+SELECT nome, descricao, data_projeto, '2014-09-19' AS data_final FROM projects
+WHERE id IN(
+SELECT projectsId FROM users_has_projects
+WHERE usersId IN(
+SELECT id FROM users
+WHERE email = 'aparecido@empresa.com'
+)
+)
+
+SELECT email FROM users
+WHERE id IN(
+SELECT usersId FROM users_has_projects
+WHERE projectsId IN(
+SELECT id FROM projects
+WHERE nome = 'Auditoria'
+)
+)
+
+
+SELECT nome, descricao, data_projeto, '2014-09-16' AS data_final, 79.85 AS custo_total FROM projects
+WHERE nome LIKE '%Manuten√ß√£o%'
+
+USE MASTER
+DROP DATABASE projeto
