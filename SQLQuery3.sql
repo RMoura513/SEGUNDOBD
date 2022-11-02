@@ -112,5 +112,28 @@ WHERE nome = 'Auditoria'
 SELECT nome, descricao, data_projeto, '2014-09-16' AS data_final, 79.85 AS custo_total FROM projects
 WHERE nome LIKE '%Manutenção%'
 
-USE MASTER
-DROP DATABASE projeto
+
+--Tarefa 01/11
+
+INSERT INTO users VALUES
+('Joao', 'Ti_joao', '123mudar', 'joao@empresa.com')
+
+INSERT INTO projects VALUES
+('Atualização de Sistemas', 'Modificação de Sistemas Operacionais nos PCs', '2014-09-12')
+
+SELECT us.id AS user_id, us.nome AS user_name, us.email, pr.id AS project_id, pr.nome AS project_name, pr.descricao, CONVERT(CHAR(10), pr.data_projeto, 103) AS data_projeto FROM users us, projects pr, users_has_projects up
+WHERE us.id = up.usersId
+		AND pr.id = up.projectsId
+			AND pr.nome = 'Re-folha'
+
+SELECT pr.nome FROM projects pr, users us, users_has_projects up
+WHERE pr.id = up.projectsId
+		AND us.id = up.usersId
+			AND up.usersId IS NULL
+
+SELECT us.nome FROM users us, users_has_projects up, projects pr
+WHERE pr.id = up.projectsId
+		AND us.id = up.usersId
+			AND up.projectsId IS NULL
+
+
