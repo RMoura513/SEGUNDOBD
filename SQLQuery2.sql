@@ -201,3 +201,28 @@ SELECT clienteNum_cadastro FROM locacao
 WHERE dvdNum = 10002
 )
 
+--Tarefa 01/11
+
+SELECT DISTINCT cl.num_cadastro, cl.nome, CONVERT(CHAR(10), lo.data_locacao, 103) AS data_locacao, DATEDIFF(DAY, lo.data_locacao, lo.data_devolucao) AS qtd_dias_alugado, f.titulo, f.ano
+FROM filme f, locacao lo, cliente cl, dvd d
+WHERE cl.nome LIKE '%Matilde%'
+		AND cl.num_cadastro = lo.clienteNum_cadastro
+			AND f.id = d.filmeId
+				AND d.num = lo.dvdNum
+
+
+SELECT es.nome, es.nome_real, f.titulo FROM estrela es, filme f, filme_estrela fe
+WHERE es.id = fe.estrelaId
+		AND f.id = fe.filmeId
+			AND f.ano = 2015
+
+
+SELECT DISTINCT f.titulo, CONVERT(CHAR(10), d.data_fabricacao, 103) AS data_fabricacao,
+	CASE WHEN (2022 - f.ano) >= 6
+	THEN
+		CAST((2022 - f.ano) AS CHAR(4)) + ' anos'
+	ELSE
+		CAST((2022 - f.ano) AS CHAR(4))
+	END AS anos
+FROM filme f, dvd d
+WHERE f.id = d.filmeId
