@@ -126,14 +126,12 @@ WHERE us.id = up.usersId
 		AND pr.id = up.projectsId
 			AND pr.nome = 'Re-folha'
 
-SELECT pr.nome FROM projects pr, users us, users_has_projects up
-WHERE pr.id = up.projectsId
-		AND us.id = up.usersId
-			AND up.usersId IS NULL
+SELECT us.nome FROM users us LEFT OUTER JOIN users_has_projects up
+ON us.id = up.usersId
+WHERE up.projectsId IS NULL
 
-SELECT us.nome FROM users us, users_has_projects up, projects pr
-WHERE pr.id = up.projectsId
-		AND us.id = up.usersId
-			AND up.projectsId IS NULL
 
+SELECT pr.nome FROM projects pr LEFT OUTER JOIN users_has_projects up
+ON pr.id = up.projectsId
+WHERE up.usersId IS NULL
 
