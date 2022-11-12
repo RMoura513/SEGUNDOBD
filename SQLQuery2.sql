@@ -226,3 +226,31 @@ SELECT DISTINCT f.titulo, CONVERT(CHAR(10), d.data_fabricacao, 103) AS data_fabr
 	END AS anos
 FROM filme f, dvd d
 WHERE f.id = d.filmeId
+
+
+
+--TAREFA 08/11
+
+SELECT CONVERT(CHAR(10), MAX(dvd.data_fabricacao), 103) AS fabricacao, cl.num_cadastro, cl.nome, f.titulo, lo.valor 
+FROM cliente cl, locacao lo, dvd dvd, filme f
+WHERE cl.num_cadastro = lo.clienteNum_cadastro
+		AND f.id = dvd.filmeId
+			AND lo.dvdNum = dvd.num
+GROUP BY cl.num_cadastro, cl.nome, f.titulo, lo.valor
+
+SELECT DISTINCT cl.num_cadastro, cl.nome, CONVERT(CHAR(10), lo.data_locacao, 103) AS data_locacao, COUNT(lo.data_locacao) AS qtd
+FROM cliente cl, locacao lo
+WHERE cl.num_cadastro = lo.clienteNum_cadastro
+GROUP BY cl.num_cadastro, cl.nome, lo.data_locacao, lo.dvdNum
+
+SELECT DISTINCT cl.num_cadastro, cl.nome, lo.data_locacao, SUM(lo.valor + lo.valor) AS valor_total
+FROM cliente cl, locacao lo
+WHERE cl.num_cadastro = lo.clienteNum_cadastro
+GROUP BY cl.num_cadastro, cl.nome, lo.data_locacao
+
+SELECT cl.num_cadastro, cl.nome, cl.logradouro + ' ' + cl.numero AS endereco, CONVERT(CHAR(10), lo.data_locacao, 103) AS data_locacao
+FROM cliente cl, locacao lo
+WHERE cl.num_cadastro = lo.clienteNum_cadastro
+GROUP BY cl.num_cadastro, cl.nome, cl.logradouro, cl.numero, lo.data_locacao
+HAVING COUNT(lo.data_locacao) >= 2
+
