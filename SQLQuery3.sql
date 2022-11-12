@@ -135,3 +135,19 @@ SELECT pr.nome FROM projects pr LEFT OUTER JOIN users_has_projects up
 ON pr.id = up.projectsId
 WHERE up.usersId IS NULL
 
+INSERT INTO users VALUES
+('João', 'Ti_joao','123mudar', 'joao@empresa.com')
+
+INSERT INTO projects VALUES
+('Atualização de Sistemas', 'Modificação de Sistemas Operacionais nos PC', '2014-09-12')
+
+SELECT COUNT(pr.id) AS qty_projects_no_users FROM projects pr LEFT OUTER JOIN users_has_projects up
+ON pr.id = up.projectsId
+WHERE up.usersId IS NULL
+
+SELECT COUNT(pr.id) AS qty_projects_no_users, pr.id, pr.nome  FROM projects pr LEFT OUTER JOIN users_has_projects up
+ON pr.id = up.projectsId
+WHERE up.usersId IS NULL
+GROUP BY pr.id, pr.nome
+ORDER BY pr.nome
+
