@@ -135,6 +135,9 @@ SELECT pr.nome FROM projects pr LEFT OUTER JOIN users_has_projects up
 ON pr.id = up.projectsId
 WHERE up.usersId IS NULL
 
+--TAREFA 08/11
+
+
 INSERT INTO users VALUES
 ('João', 'Ti_joao','123mudar', 'joao@empresa.com')
 
